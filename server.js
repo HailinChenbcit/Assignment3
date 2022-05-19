@@ -1,9 +1,13 @@
 const express = require("express");
-const app = express();
-app.set("view engine", "ejs");
+const bcrypt = require("bcryptjs");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
+const app = express();
+app.set("view engine", "ejs");
+
 var session = require("express-session");
+const UserModel = require("./models/User");
+const eventModel = require("./models/TimeEvent");
 
 app.use(
   bodyparser.urlencoded({
@@ -17,48 +21,100 @@ app.use(
   session({
     secret: "secret",
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 
-
-mongoose.connect("mongodb://localhost:27017/timelineDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then((res)=>{
-  console.log("MongoDB connected")
-});
-
-// User model
-const userSchema = new mongoose.Schema({
-  firstname: String,
-  lastname: String,
-  email: String,
-  password: String,
-  admin: Boolean,
-  cart: Array,
-});
-const userModel = mongoose.model("users", userSchema);
-
-// Time Event model
-const eventSchema = new mongoose.Schema({
-  text: String,
-  hits: Number,
-  time: String
-});
-const eventModel = mongoose.model("timelineevents", eventSchema);
-
-
-function auth(req, res, next) {
-  if (req.session.authenticated) next();
-  else {
-    res.redirect("/home.html");
+// Middleware
+function isAuth(req, res, next) {
+  if (req.session.isAuth) {
+    next();
+  } else {
+    res.redirect("/login");
   }
 }
 
+mongoose
+  .connect("mongodb://localhost:27017/timelineDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((res) => {
+    console.log("MongoDB connected");
+  });
+
+/*
+ User Login Logout
+*/
 app.get("/", function (req, res) {
-  req.session.isAuth = true
-  res.send('Home page')
+  res.redirect("login");
+});
+
+app.get("/login", function (req, res) {
+  res.render("login");
+});
+
+app.post("/login", async function (req, res) {
+  const { email, password } = req.body;
+  const user = await UserModel.findOne({ email });
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!user || !isMatch) {
+    return res.redirect("/login");
+  }
+  req.session.isAuth = true;
+  res.redirect("/home");
+});
+
+app.get("/register", function (req, res) {
+  res.render("register");
+});
+
+app.post("/register", async function (req, res) {
+  const { firstname, lastname, email, password } = req.body;
+  let user = await UserModel.findOne({ email });
+
+  if (user) {
+    return res.redirect("/register");
+  }
+
+  const hashedPsw = await bcrypt.hash(password, 12);
+  user = new UserModel({
+    firstname,
+    lastname,
+    email,
+    password: hashedPsw,
+  });
+  await user.save();
+
+  res.redirect("/login");
+});
+
+app.get("/logout", isAuth, function (req, res) {
+  res.render("logout");
+});
+
+app.post("/logout", function (req, res) {
+  req.session.destroy((err) => {
+    if (err) throw err
+    res.redirect("/")
+  })
+});
+
+app.get("/home", isAuth, function (req, res) {
+  res.render("home");
+});
+
+app.get("/search", isAuth, function (req, res) {
+  res.render("search");
+});
+
+app.get("/timeline", isAuth, function (req, res) {
+  res.render("timeline");
+});
+
+app.get("/shoppingcart", isAuth, function (req, res) {
+  res.render("shoppingcart");
 });
 
 
@@ -137,6 +193,7 @@ app.get("/timeline/remove/:id", function (req, res) {
 });
 
 const https = require("https");
+const User = require("./models/User");
 
 app.get("/profile/:id", function (req, res) {
   const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`;
@@ -198,6 +255,7 @@ app.get("/profile/:id", function (req, res) {
     });
   });
 });
+
 
 app.use(express.static("./public"));
 

@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Assignment3</title>
-    <link rel="stylesheet" href="./styles/style.css">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
 </head>
 
@@ -18,22 +18,28 @@
     </header>
 
     <nav>
-        <a href="./home.html" id="Homepage">
+        <a href="/home" id="Homepage">
             Home
         </a>
-        <a href="./search.html" id="Searchpage">
+        <a href="/search" id="Searchpage">
             Search
         </a>
-        <a href="./timeline.html" id="Historypage">
+        <a href="/timeline" id="Historypage">
             Account
         </a>
-        <a href="./shoppingcart.html">
+        <a href="/shoppingcart">
             Cart
         </a>
+        <a href="/logout">
+            Logout
+        </a>
+
     </nav>
 
     <main>
-        <p>Shopping Cart page</p>
+        <form action="/logout" method="POST">
+            <button>Logout</button>
+        </form>
     </main>
 
     <footer>
