@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./scripts/search.js"></script>
+    <link rel="stylesheet" href="./styles/style.css">
+    <style>
+        #search {
+            width: 80px;
+            padding: 3px 3px;
+            text-align: center;
+            font-size: 15px;
+            border-radius: 10px;
+            transition-duration: 0.4s;
+            background-color: white;
+            color: black;
+            border: 1px solid #dcffdd;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        #search:hover {
+            background-color: #fffede;
+            color: rgb(0, 0, 0);
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .filter_container {
+            display: flex;
+            flex-direction: row;
+            margin: 7vh 0 5vh;
+            grid-gap: 0 2vw;
+            gap: 0 2vw;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter_items {
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: center;
+            align-items: center;
+            font-family: "Rockwell";
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .pagination {
+            text-align: center;
+        }
+
+        #page_numbers{
+            transition: all .2s ease-in-out;
+        }
+
+        #page_numbers button:hover{
+            color: rgb(159, 216, 197);
+            background-color: #d5ffd6;
+            transform: scale(1.5);
+        }
+
+        #page_numbers span{
+            border-radius: 8px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            margin: 0 1.2px;
+        }
+
+        @media screen and (max-width: 550px) {
+            .filter_container {
+                flex-direction: column !important;
+                margin: 7vh 0 5vh;
+                grid-gap: 0 2vw;
+                gap: 0 2vw;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .filter_items {
+                flex-direction: row;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="/banner.jpeg" height="40%" alt="banner">
+    </header>
+
+    <nav>
+        <a href="/index.html" id="Homepage">
+            Home
+        </a>
+        <a href="/search.html" id="Searchpage">
+            Search
+        </a>
+        <a href="/timeline.html" id="Historypage">
+            History
+        </a>
+        <a href="/shoppingcart.html" id="Historypage">
+            Cart
+        </a>
+    </nav>
+
+    <div class="filter_container">
+        <div class="filter_items">
+            <div>
+                <h3>Type</h3>
+            </div>
+            <select name="poke_type" id="poke_type">
+                <option value="normal">normal</option>
+                <option value="fighting">fighting</option>
+                <option value="flying">flying</option>
+                <option value="poison">poison</option>
+                <option value="ground">ground</option>
+                <option value="rock">rock</option>
+                <option value="bug">bug</option>
+                <option value="ghost">ghost</option>
+                <option value="steel">steel</option>
+                <option value="fire">fire</option>
+                <option value="water">water</option>
+                <option value="grass">grass</option>
+                <option value="electric">electric</option>
+                <option value="psychic">psychic</option>
+                <option value="ice">ice</option>
+                <option value="dragon">dragon</option>
+                <option value="dark">dark</option>
+                <option value="fairy">fairy</option>
+                <option value="shadow">shadow</option>
+            </select>
+        </div>
+
+        <div class="filter_items">
+            <div>
+                <h3>Region</h3>
+            </div>
+            <select name="poke_region" id="poke_region">
+                <option value="kanto">kanto</option>
+                <option value="updated-johto">johto</option>
+                <option value="updated-hoenn">hoenn</option>
+                <option value="extended-sinnoh">sinnoh</option>
+                <option value="updated-unova">unova</option>
+                <option value="alos-central">kalos</option>
+                <option value="updated-alola">alola</option>
+            </select>
+        </div>
+
+        <div class="filter_items">
+            <label>
+                <h3>Search by Name</h3>
+            </label>
+            <input type="text" name="poke_name" id="poke_name" placeholder="Enter Pokemon Name">
+        </div>
+
+        <div class="filter_items">
+            <label>
+                <h3>&nbsp</h3>
+            </label>
+            <button id="search" onkeyup="value=value.replace(/[^a-zA-Z]/g, '')">Search</button>
+        </div>
+
+    </div>
+
+    <main>
+
+    </main>
+
+    <div class="pagination">
+        <button id="prev">&laquo;</button>
+        <span id="page_numbers">
+            
+        </span>
+        <button id="next">&raquo;</button>
+    </div>
+
+    <footer>
+        <h5>
+            Copyright © Adam Website 2022
+        </h5>
+    </footer>
+</body>
+</html>
