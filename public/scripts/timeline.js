@@ -34,12 +34,13 @@ function increamentHitsByOne() {
         url: `http://localhost:8000/timeline/inreaseHits/${this.id}`,
         type: "get",
         success: (e) => {
-            console.log(e)
+            loadEvents()
         }
     })
 }
 
 function deleteEntry() {
+    $(this).parent().remove()
     $.ajax({
         url: `http://localhost:8000/timeline/remove/${this.id}`,
         type: "get",
@@ -47,7 +48,6 @@ function deleteEntry() {
             console.log(e)
         }
     })
-    $("main").load(location.href)
 }
 
 

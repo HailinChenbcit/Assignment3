@@ -28,7 +28,7 @@ async function display_all_picture() {
     for (i = 0; i < 3; i++) {
         result += "<div class='images_group'>"
         for (j = 0; j < 3; j++) {
-            poke_id = Math.floor((Math.random() * 900) + 1);
+            poke_id = Math.floor((Math.random() * 800) + 1);
             await $.ajax(
                 {
                     "url": `https://pokeapi.co/api/v2/pokemon/${poke_id}`,
