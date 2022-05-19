@@ -21,7 +21,7 @@ app.use(
   session({
     secret: "secret",
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 
@@ -96,9 +96,9 @@ app.get("/logout", isAuth, function (req, res) {
 
 app.post("/logout", function (req, res) {
   req.session.destroy((err) => {
-    if (err) throw err
-    res.redirect("/")
-  })
+    if (err) throw err;
+    res.redirect("/");
+  });
 });
 
 app.get("/home", isAuth, function (req, res) {
@@ -116,7 +116,6 @@ app.get("/timeline", isAuth, function (req, res) {
 app.get("/shoppingcart", isAuth, function (req, res) {
   res.render("shoppingcart");
 });
-
 
 /* 
 Timeline Event
@@ -195,10 +194,10 @@ app.get("/timeline/remove/:id", function (req, res) {
 const https = require("https");
 const User = require("./models/User");
 
-app.get("/profile/:id", function (req, res) {
+app.get("/profile/:id", async function (req, res) {
   const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`;
   data = "";
-  https.get(url, function (https_res) {
+  await https.get(url, function (https_res) {
     https_res.on("data", function (chunk) {
       data += chunk;
     });
@@ -256,6 +255,21 @@ app.get("/profile/:id", function (req, res) {
   });
 });
 
+/*
+shopping cart
+*/
+
+app.post("/profile/:id", isAuth, async function (req, res) {
+  const { quantity } = req.body;
+  var pokeprice = document.getElementById("price");
+  cartItems = new UserModel({
+    pokeID,
+    quantity,
+    price: pokeprice,
+  });
+  await cartItems.save();
+  res.redirect("/success");
+});
 
 app.use(express.static("./public"));
 

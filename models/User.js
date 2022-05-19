@@ -8,7 +8,11 @@ const userSchema = new Schema({
   email: String,
   password: String,
   admin: Boolean,
-  cart: Array,
+  cart: [{
+    pokeID: Number,
+    price: Number,
+    quantity: Number,
+  }],
 });
 
 module.exports = mongoose.model('User', userSchema)

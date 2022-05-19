@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment1</title>
+    <title>Assignment3</title>
     <link rel="stylesheet" href="/styles/style.css">
     <style>
         .info_container {
@@ -89,7 +89,6 @@
     <header>
         <img src="/banner.jpeg" height="40%" alt="banner">
     </header>
-
     <nav>
         <a href="/home" id="Homepage">
             Home
@@ -103,6 +102,10 @@
         <a href="/shoppingcart">
             Cart
         </a>
+        <a href="/logout">
+            Logout
+        </a>
+
     </nav>
 
     <div class="info_container">
@@ -173,6 +176,21 @@
                         </li>
                         <% } %>
                 </ul>
+            </div>
+            <div>
+                <p>Price:  $<span id="price"> <%= hp %></span></p>
+            </div>
+            <div>
+                <form action="/profile/<%= id %>" method="POST">
+                    <label for="quantity">Quantity: </label>
+                    <select name="quantity" id="quantity">
+                      <option value=1>1</option>
+                      <option value=2>2</option>
+                      <option value=5>5</option>
+                      <option value=10>10</option>
+                    </select>
+                    <input type="submit" name="cart" id="cart" value="Add to Cart">
+                </form>
             </div>
         </div>
     </div>
