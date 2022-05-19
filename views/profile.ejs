@@ -1,168 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Assignment3</title>
-    <link rel="stylesheet" href="/styles/style.css" />
-    <!-- FAVICON -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment1</title>
+    <link rel="stylesheet" href="/styles/style.css">
     <style>
-      .info_container {
-        display: grid;
-        background-color: rgb(240, 240, 222);
-        grid-template-columns: auto auto;
-        grid-template-rows: auto;
-        margin: 30px 30px;
-        padding: 10px;
-        border-radius: 12px;
-        text-transform: capitalize;
-        text-align: center;
-        box-shadow: 0 1.6px 1.6px rgba(0, 0, 0, 0.023),
-          0 3.8px 3.8px rgba(0, 0, 0, 0.034), 0 6.9px 6.9px rgba(0, 0, 0, 0.041),
-          0 11.4px 11.4px rgba(0, 0, 0, 0.049),
-          0 18.8px 18.8px rgba(0, 0, 0, 0.056),
-          0 32.8px 32.8px rgba(0, 0, 0, 0.067), 0 71px 71px rgba(0, 0, 0, 0.09);
-        transition: all 0.2s ease-in-out;
-      }
-
-      .img_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-      }
-
-      .info_container img {
-        width: 50%;
-      }
-
-      .data_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .data_container div {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-      }
-
-      #all_stats ul {
-        list-style-type: none;
-      }
-
-      progress {
-        color: coral;
-        -webkit-appearance: none;
-        border-radius: 10px;
-        height: 12px;
-        box-shadow: 1px 1px 4px rgba(244, 254, 181, 0.826);
-      }
-
-      ::-webkit-progress-value {
-        background-color: coral;
-      }
-
-      ::-webkit-progress-bar {
-        background-color: rgb(248, 248, 126);
-        width: 100%;
-      }
-
-      @media screen and (max-width: 550px) {
         .info_container {
-          grid-template-columns: auto;
-          grid-template-rows: auto;
+            display: grid;
+            background-color: rgb(240, 240, 222);
+            grid-template-columns: auto auto;
+            grid-template-rows: auto;
+            margin: 30px 30px;
+            padding: 10px;
+            border-radius: 12px;
+            text-transform: capitalize;
+            text-align: center;
+            box-shadow:
+                0 1.6px 1.6px rgba(0, 0, 0, 0.023),
+                0 3.8px 3.8px rgba(0, 0, 0, 0.034),
+                0 6.9px 6.9px rgba(0, 0, 0, 0.041),
+                0 11.4px 11.4px rgba(0, 0, 0, 0.049),
+                0 18.8px 18.8px rgba(0, 0, 0, 0.056),
+                0 32.8px 32.8px rgba(0, 0, 0, 0.067),
+                0 71px 71px rgba(0, 0, 0, 0.09);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .img_container {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+
+        .info_container img {
+            width: 50%;
         }
 
         .data_container {
-          justify-content: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-      }
-    </style>
-  </head>
 
-  <body>
+        .data_container div {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+        }
+
+        #all_stats ul {
+            list-style-type: none;
+        }
+
+        progress {
+            color: coral;
+            -webkit-appearance: none;
+            border-radius: 10px;
+            height: 12px;
+            box-shadow: 1px 1px 4px rgba(244, 254, 181, 0.826);
+        }
+
+        ::-webkit-progress-value {
+            background-color: coral;
+        }
+
+        ::-webkit-progress-bar {
+            background-color: rgb(248, 248, 126);
+            width: 100%;
+        }
+
+        @media screen and (max-width: 550px) {
+            .info_container {
+                grid-template-columns: auto;
+                grid-template-rows: auto;
+            }
+
+            .data_container {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
     <header>
-      <img src="/banner.jpeg" height="40%" alt="banner" />
+        <img src="/banner.jpeg" height="40%" alt="banner">
     </header>
+
     <nav>
-      <a href="/index.html" id="Homepage"> Home </a>
-      <a href="/search.html" id="Searchpage"> Search </a>
-      <a href="/timeline.html" id="Historypage"> History </a>
-      <a href="/shoppingcart.html" id="Historypage">Cart</a>
+        <a href="/index.html">
+            Home
+        </a>
+        <a href="/search.html">
+            Search
+        </a>
+        <a href="/timeline.html" id="Historypage">
+            History
+        </a>
+        <a href="/shoppingcart.html">
+            Cart
+        </a>
     </nav>
 
     <div class="info_container">
-      <div class="img_container">
-        <div>
-          <h2># <%= id %></h2>
+        <div class="img_container">
+            <div>
+                <h2># <%= id %>
+                </h2>
+            </div>
+
+            <br>
+
+            <div>
+                <h3>
+                    <%= name %>
+                </h3>
+            </div>
+
+            <div>
+                <img
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png">
+            </div>
+
         </div>
 
-        <br />
+        <div class="data_container">
+            <div id="all_stats">
+                STATS
+                <ul>
+                    <li>
+                        HP: <%= hp %>
+                            <progress id="file" value=<%=hp %> min="200" max="294"> </progress>
+                    </li>
 
-        <div>
-          <h3><%= name %></h3>
-        </div>
+                    <li>
+                        WEIGHT: <%= weight %>
+                            <progress id="file" value=<%=hp %> max="100"> </progress>
 
-        <div>
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png"
-          />
-        </div>
-      </div>
+                    </li>
 
-      <div class="data_container">
-        <div id="all_stats">
-          STATS
-          <ul>
-            <li>
-              HP: <%= hp %>
-              <progress id="file" value="<%" ="hp" %>
-                min="200" max="294">
-              </progress>
-            </li>
-
-            <li>
-              WEIGHT: <%= weight %>
-              <progress id="file" value="<%" ="hp" %>max="100"></progress>
-            </li>
-
-            <li>
-              HEIGHT: <%= height %>
-              <progress id="file" value="<%" ="hp" %>max="150"></progress>
-            </li>
-            <li>
-              ATTACK: <%= attack %>
-              <progress id="file" value="<%" ="hp" %>max="216"></progress>
-            </li>
-            <li>
-              DEFENSE: <%= defense %>
-              <progress id="file" value="<%" ="hp" %>max="216"></progress>
-            </li>
-          </ul>
+                    <li>
+                        HEIGHT: <%= height %>
+                            <progress id="file" value=<%=hp %> max="150"> </progress>
+                    </li>
+                    <li>
+                        ATTACK: <%= attack %> <progress id="file" value=<%=hp %> max="216"> </progress>
+                    </li>
+                    <li>
+                        DEFENSE: <%= defense %> <progress id="file" value=<%=hp %> max="216"> </progress>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                ABILITY
+                <ul>
+                    <% for (var i=0; i < abilities.length; i++) { %>
+                        <li>
+                            <%= abilities[i] %>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
+            <div>
+                TYPE
+                <ul>
+                    <% for (var i=0; i < types.length; i++) { %>
+                        <li>
+                            <%= types[i] %>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
         </div>
-        <div>
-          ABILITY
-          <ul>
-            <% for (var i=0; i < abilities.length; i++) { %>
-            <li><%= abilities[i] %></li>
-            <% } %>
-          </ul>
-        </div>
-        <div>
-          TYPE
-          <ul>
-            <% for (var i=0; i < types.length; i++) { %>
-            <li><%= types[i] %></li>
-            <% } %>
-          </ul>
-        </div>
-      </div>
     </div>
-    <footer>
-      <h5>Copyright © Adam Website 2022</h5>
-    </footer>
-  </body>
+
+</body>
+<footer>
+    <h5>
+        Copyright © Adam Website 2022
+    </h5>
+</footer>
+
 </html>
