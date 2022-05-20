@@ -276,7 +276,7 @@ app.post("/profile/:id", isAuth, function (req, res) {
 // price and pokeID retrieve
   var { quantity, price, pokeID } = req.body;
   quantity = Number(quantity);
-
+  console.log(quantity, price)
   const newCart = cartModel({
     owner: req.session.user._id,
     pokeID: pokeID,
