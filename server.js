@@ -258,17 +258,27 @@ app.get("/profile/:id", async function (req, res) {
 /*
 shopping cart
 */
-
 app.post("/profile/:id", isAuth, async function (req, res) {
   const { quantity } = req.body;
-  var pokeprice = document.getElementById("price");
-  cartItems = new UserModel({
-    pokeID,
-    quantity,
-    price: pokeprice,
+  const { price } = req.body;
+  // UserModel.findByIdAndUpdate(id, {}, { new: true });
+  const userCart = await UserModel.findById({
+    _id: req.user._id,
+  }).exec();
+
+  userCart.cart.push({
+    pokeID: id,
+    price: price,
+    quantity: quantity,
   });
-  await cartItems.save();
+
+  userCart.save();
   res.redirect("/success");
+});
+
+// success page
+app.get("/success", isAuth, function (req, res) {
+  res.render("success");
 });
 
 app.use(express.static("./public"));

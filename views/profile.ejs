@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment3</title>
     <link rel="stylesheet" href="/styles/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/scripts/profile.js"></script>
     <style>
         .info_container {
             display: grid;
@@ -177,11 +179,12 @@
                         <% } %>
                 </ul>
             </div>
-            <div>
-                <p>Price:  $<span id="price"> <%= hp %></span></p>
-            </div>
+            <br>
             <div>
                 <form action="/profile/<%= id %>" method="POST">
+                    <label for="price">Price: $</label>
+                    <span type="text" name="price" id="price"><%= hp %></span>
+
                     <label for="quantity">Quantity: </label>
                     <select name="quantity" id="quantity">
                       <option value=1>1</option>
