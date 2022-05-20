@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// cart
-
-const cartSchema = new Schema({
-  pokeID: Number,
-  price: Number,
-  quantity: Number,
-});
 
 // User model
 const userSchema = new Schema(
@@ -16,7 +9,6 @@ const userSchema = new Schema(
     email: String,
     password: String,
     admin: Boolean,
-    cart: [cartSchema],
   },
   {
     _id: true,

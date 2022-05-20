@@ -8,6 +8,7 @@ app.set("view engine", "ejs");
 var session = require("express-session");
 const UserModel = require("./models/User");
 const eventModel = require("./models/TimeEvent");
+const cartModel = require("./models/Cart");
 
 app.use(
   bodyparser.urlencoded({
@@ -262,11 +263,11 @@ app.post("/profile/:id", isAuth, async function (req, res) {
   const { quantity } = req.body;
   const { price } = req.body;
   // UserModel.findByIdAndUpdate(id, {}, { new: true });
-  const userCart = await UserModel.findById({
+  const userCart = await cartModel.find({
     _id: req.user._id,
   }).exec();
 
-  userCart.cart.push({
+  userCart.push({
     pokeID: id,
     price: price,
     quantity: quantity,
