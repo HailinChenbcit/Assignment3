@@ -182,8 +182,9 @@
             <br>
             <div>
                 <form action="/profile/<%= id %>" method="POST">
+                    <span type="text" name="pokeID" id="pokeID" value="<%= id %>">#<%= id %></span>
                     <label for="price">Price: $</label>
-                    <span type="text" name="price" id="price"><%= hp %></span>
+                    <span type="text" name="price" id="price" value="<%= hp %>"><%= hp %></span>
 
                     <label for="quantity">Quantity: </label>
                     <select name="quantity" id="quantity">

@@ -28,12 +28,14 @@ app.use(
 
 // Middleware
 function isAuth(req, res, next) {
-  if (req.session.isAuth) {
+  if (req.sessionID && req.session.authenticated) {
+    console.log(req.sessionID)
     next();
   } else {
     res.redirect("/login");
   }
 }
+
 
 mongoose
   .connect("mongodb://localhost:27017/timelineDB", {
@@ -43,6 +45,17 @@ mongoose
   .then((res) => {
     console.log("MongoDB connected");
   });
+
+
+// print out user information in session
+app.use((req, res, next) => {
+  console.log(`User details are: `);
+  console.log(req.session.user);
+  console.log("Entire session object:");
+  console.log(req.session);
+  next();
+});
+
 
 /*
  User Login Logout
@@ -63,7 +76,8 @@ app.post("/login", async function (req, res) {
   if (!user || !isMatch) {
     return res.redirect("/login");
   }
-  req.session.isAuth = true;
+  req.session.authenticated = true;
+  req.session.user = user
   res.redirect("/home");
 });
 
@@ -95,7 +109,7 @@ app.get("/logout", isAuth, function (req, res) {
   res.render("logout");
 });
 
-app.post("/logout", function (req, res) {
+app.post("/logout", isAuth, function (req, res) {
   req.session.destroy((err) => {
     if (err) throw err;
     res.redirect("/");
@@ -193,7 +207,6 @@ app.get("/timeline/remove/:id", function (req, res) {
 });
 
 const https = require("https");
-const User = require("./models/User");
 
 app.get("/profile/:id", async function (req, res) {
   const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`;
@@ -259,21 +272,19 @@ app.get("/profile/:id", async function (req, res) {
 /*
 shopping cart
 */
-app.post("/profile/:id", isAuth, async function (req, res) {
-  const { quantity } = req.body;
-  const { price } = req.body;
-  // UserModel.findByIdAndUpdate(id, {}, { new: true });
-  const userCart = await cartModel.find({
-    _id: req.user._id,
-  }).exec();
+app.post("/profile/:id", isAuth, function (req, res) {
+// price and pokeID retrieve
+  var { quantity, price, pokeID } = req.body;
+  quantity = Number(quantity);
 
-  userCart.push({
-    pokeID: id,
+  const newCart = cartModel({
+    owner: req.session.user._id,
+    pokeID: pokeID,
     price: price,
     quantity: quantity,
   });
 
-  userCart.save();
+  newCart.save();
   res.redirect("/success");
 });
 
