@@ -125,22 +125,39 @@ app.get("/timeline", isAuth, function (req, res) {
   res.render("timeline");
 });
 
+// Add item to cart
 app.get("/shoppingcart", isAuth, async function (req, res) {
   const allCarts = await cartModel
     .find({
       owner: req.session.user._id,
     })
     .exec();
-    const cartItems = allCarts.map((item) => {
-    const worryEntry = {
+  const cartItems = allCarts.map((item) => {
+    const carItem = {
       _id: item._id,
       id: item.pokeID,
       price: item.price,
       quantity: item.quantity,
     };
-    return worryEntry;
+    return carItem;
   });
-  res.render("shoppingcart", { cartItems});
+  res.render("shoppingcart", { cartItems });
+});
+
+// Delete cart item
+app.delete("/shoppingcart/remove/:id", isAuth, (req, res) => {
+  cartModel.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err, data) {
+      if (err) {
+        console.log("Error " + err);
+      } else {
+        console.log("Deleted Data " + data);
+      }
+    }
+  );
 });
 
 /* 
