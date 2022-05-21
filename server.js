@@ -29,13 +29,12 @@ app.use(
 // Middleware
 function isAuth(req, res, next) {
   if (req.sessionID && req.session.authenticated) {
-    console.log(req.sessionID)
+    console.log(req.sessionID);
     next();
   } else {
     res.redirect("/login");
   }
 }
-
 
 mongoose
   .connect("mongodb://localhost:27017/timelineDB", {
@@ -46,7 +45,6 @@ mongoose
     console.log("MongoDB connected");
   });
 
-
 // print out user information in session
 app.use((req, res, next) => {
   console.log(`User details are: `);
@@ -55,7 +53,6 @@ app.use((req, res, next) => {
   console.log(req.session);
   next();
 });
-
 
 /*
  User Login Logout
@@ -77,7 +74,7 @@ app.post("/login", async function (req, res) {
     return res.redirect("/login");
   }
   req.session.authenticated = true;
-  req.session.user = user
+  req.session.user = user;
   res.redirect("/home");
 });
 
@@ -128,8 +125,22 @@ app.get("/timeline", isAuth, function (req, res) {
   res.render("timeline");
 });
 
-app.get("/shoppingcart", isAuth, function (req, res) {
-  res.render("shoppingcart");
+app.get("/shoppingcart", isAuth, async function (req, res) {
+  const allCarts = await cartModel
+    .find({
+      owner: req.session.user._id,
+    })
+    .exec();
+    const cartItems = allCarts.map((item) => {
+    const worryEntry = {
+      _id: item._id,
+      id: item.pokeID,
+      price: item.price,
+      quantity: item.quantity,
+    };
+    return worryEntry;
+  });
+  res.render("shoppingcart", { cartItems});
 });
 
 /* 
@@ -273,10 +284,10 @@ app.get("/profile/:id", async function (req, res) {
 shopping cart
 */
 app.post("/profile/:id", isAuth, function (req, res) {
-// price and pokeID retrieve
+  // price and pokeID retrieve
   var { quantity, price, pokeID } = req.body;
   quantity = Number(quantity);
-  console.log(quantity, price)
+  console.log(quantity, price);
   const newCart = cartModel({
     owner: req.session.user._id,
     pokeID: pokeID,

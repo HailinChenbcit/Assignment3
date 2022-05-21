@@ -1,51 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Assignment3</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+      main {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+      }
+      table {
+        background-color: aliceblue;
+      }
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      .checkout {
+        text-align: right;
+      }
+    </style>
+    <script src="/scripts/cart.js"></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <header>
-        <img src="./banner.jpeg" height="40%" alt="banner">
+      <img src="./banner.jpeg" height="40%" alt="banner" />
     </header>
 
     <nav>
-        <a href="/home" id="Homepage">
-            Home
-        </a>
-        <a href="/search" id="Searchpage">
-            Search
-        </a>
-        <a href="/timeline" id="Historypage">
-            Account
-        </a>
-        <a href="/shoppingcart">
-            Cart
-        </a>
-        <a href="/logout">
-            Logout
-        </a>
-
+      <a href="/home" id="Homepage"> Home </a>
+      <a href="/search" id="Searchpage"> Search </a>
+      <a href="/timeline" id="Historypage"> Account </a>
+      <a href="/shoppingcart"> Cart </a>
+      <a href="/logout"> Logout </a>
     </nav>
 
     <main>
-        <p>Shopping Cart page</p>
+      <% if (cartItems.length === 0) { %>
+      <p>Empty Cart!</p>
+      <% } %>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Card#</th>
+            <th>Price(CAD)</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cartItems.forEach(item => { %>
+          <tr>
+            <th></th>
+            <th id="id<%=item.id %>"><%=item.id %></th>
+            <th><%=item.price %></th>
+            <th><%=item.quantity %></th>
+            <th class="cart-sub">
+              <%=Number(item.quantity) * Number(item.price) %>
+            </th>
+          </tr>
+          <% }) %>
+          <tr>
+            <th>Subtotal</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th id="subtotal"></th>
+          </tr>
+          <tr>
+            <th>Tax</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th id="tax"></th>
+          </tr>
+          <tr>
+            <th>Total</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th id="total"></th>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <div class="checkout">
+        <form action="">
+          <input type="button" name="checkout" id="checkout" value="CheckOut" />
+        </form>
+      </div>
     </main>
 
     <footer>
-        <h5>
-            Copyright © Adam Website 2022
-        </h5>
+      <h5>Copyright © Adam Website 2022</h5>
     </footer>
-
-</body>
-
+  </body>
 </html>
