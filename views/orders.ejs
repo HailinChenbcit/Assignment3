@@ -41,9 +41,38 @@
       <a href="/timeline" id="Historypage"> Account </a>
       <a href="/shoppingcart"> Cart </a>
     </nav>
+
     <main>
-        
+      <form action="/orders" method="POST">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Card#</th>
+              <th>Price(CAD)</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartItems.forEach(item => { %>
+            <tr class="cart-items">
+              <th></th>
+              <th id="id<%=item.id %>"><%=item.id %></th>
+              <th>$<%=item.price %></th>
+              <th><%=item.quantity %></th>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <br />
+        <div class="checkout">
+          <a href="/profile">
+            <button>Go Back</button>
+          </a>
+        </div>
+      </form>
     </main>
+
     <footer>
       <h5>Copyright © Adam Website 2022</h5>
     </footer>

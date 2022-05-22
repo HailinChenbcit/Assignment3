@@ -9,7 +9,6 @@
     <script src="/scripts/timeline.js"></script>
     <link rel="stylesheet" href="/styles/style.css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-
     <style>
       .history {
         margin: 3px 3px;
@@ -54,6 +53,9 @@
           0 18.8px 18.8px rgba(0, 0, 0, 0.056),
           0 32.8px 32.8px rgba(0, 0, 0, 0.067), 0 71px 71px rgba(0, 0, 0, 0.09);
       }
+      .prev-order li{
+        list-style-type: decimal;
+      }
     </style>
   </head>
 
@@ -90,7 +92,7 @@
         <p>No Activity yet!</p>
         <% } %> <% allEvents.forEach(event => { %>
         <div class="history">
-          <p>Event - <span><%=event.text %></span></p>
+          <p>Search Event - <span><%=event.text %></span></p>
           <p>Time - <span><%=event.time %></span></p>
           <button class="DeleteButton" id="<%=event._id %>">Delete</button>
         </div>
@@ -101,6 +103,18 @@
         <div>
           <p>Previous Orders</p>
         </div>
+        <% if (allOrders.length === 0) { %>
+        <p>No Orders yet!</p>
+
+        <div>
+        <ol>
+          <% } %> <% allOrders.forEach(order => { %>
+          <li>
+            <button class="orderButton" id="<%=order._id %>">Order</button>
+          </li>
+          <br>
+          <% }) %>
+        </ol>
       </div>
     </main>
   </body>

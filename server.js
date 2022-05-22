@@ -61,7 +61,7 @@ mongoose
 app.get("/", function (req, res) {
   res.redirect("login");
 });
-
+// Login
 app.get("/login", function (req, res) {
   res.render("login");
 });
@@ -78,7 +78,7 @@ app.post("/login", async function (req, res) {
   req.session.user = user;
   res.redirect("/home");
 });
-
+// Registration
 app.get("/register", function (req, res) {
   res.render("register");
 });
@@ -102,7 +102,7 @@ app.post("/register", async function (req, res) {
 
   res.redirect("/login");
 });
-
+// Log out
 app.get("/logout", isAuth, function (req, res) {
   res.render("logout");
 });
@@ -190,8 +190,21 @@ app.get("/timeline", isAuth, async function (req, res) {
     firstname: userInfo[0].firstname,
     email: userInfo[0].email,
   };
+  // All fulfilled order
+  const prevOrders = await orderModel
+    .find({
+      owner: req.session.user._id,
+    })
+    .exec();
+  // Get all order IDs
+  const allOrders = prevOrders.map((order) => {
+    const orderEvent = {
+      _id: order._id,
+    };
+    return orderEvent;
+  });
 
-  res.render("timeline", { allEvents, details });
+  res.render("timeline", { allEvents, details, allOrders });
 });
 
 //Create
@@ -307,16 +320,7 @@ app.get("/success", isAuth, function (req, res) {
   res.render("success");
 });
 
-app.get("/orders/:id", isAuth, function (req, res) {
-  // Display all the orders from user
-  /*
-  Orders schema:
-  UserID,
-  CartID,
-  Time,
-  */
-});
-
+// User check out carts
 app.post("/orders", isAuth, async function (req, res) {
   var allCheckCarts = await cartModel
     .find({
@@ -341,9 +345,54 @@ app.post("/orders", isAuth, async function (req, res) {
   newOrder.save();
   // Updated checkout status to true
   allChecked.forEach((checked) => {
-    cartModel.findByIdAndUpdate(checked, { checkout: true }, { new: true });
+    cartModel.findByIdAndUpdate(
+      checked,
+      { checkout: true },
+      { new: true },
+      function (err, response) {
+        if (err) {
+          console.log("we hit an error" + err);
+          res.json({
+            message: "Database Update Failure",
+          });
+        }
+        console.log("Success Checkout Cart");
+      }
+    );
   });
   res.redirect("/timeline");
+});
+
+// success page
+app.get("/order/:id", isAuth, async function (req, res) {
+  const id = req.params.id;
+  // Find specific fulfilled order by ID
+  const prevOrders = await orderModel
+    .find({
+      _id: id,
+    })
+    .exec();
+  //Carts Array
+  allOrder = [];
+  prevOrders[0].cart.forEach((orderItem) => {
+    allOrder.push(orderItem);
+  });
+
+  const allCarts = await cartModel.find({ _id: { $in: allOrder } }).exec();
+  console.log(allCarts);
+  // const cartItems = allCarts.map((item) => {
+  //   const carItem = {
+  //     _id: item._id,
+  //     id: item.pokeID,
+  //     price: item.price,
+  //     quantity: item.quantity,
+  //   };
+  //   return carItem;
+  // });
+
+  // Get all cart IDs in this order
+
+  res.render("orders", {});
 });
 
 app.use(express.static("./public"));

@@ -7,7 +7,7 @@ function updateCartTotal() {
   for (var i = 0; i < carSubs.length; i++) {
     subtotals += parseFloat(carSubs[i].innerHTML);
   }
-  var taxes = (0.12 * subtotals);
+  var taxes = 0.12 * subtotals;
   var totals = subtotals + taxes;
   $("#total").append("$" + totals);
   $("#tax").append("$" + taxes);
