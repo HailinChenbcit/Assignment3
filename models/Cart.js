@@ -3,11 +3,12 @@ const Schema = mongoose.Schema;
 
 // cart
 const cartSchema = new Schema(
-  {    
+  {
     owner: { type: Schema.Types.ObjectId, ref: "User" },
     pokeID: Number,
     price: Number,
     quantity: Number,
+    checkout: { type: Boolean, default: false },
   },
   {
     _id: true,

@@ -43,73 +43,73 @@
     </nav>
 
     <main>
-      <% if (cartItems.length === 0) { %>
-      <p>Empty Cart!</p>
-      <% } %>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Card#</th>
-            <th>Price(CAD)</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% cartItems.forEach(item => { %>
-          <tr class="cart-items">
-            <th></th>
-            <th id="id<%=item.id %>"><%=item.id %></th>
-            <th><%=item.price %></th>
-            <th><%=item.quantity %></th>
-            <th class="cart-sub">
-              <%=Number(item.quantity) * Number(item.price) %>
-            </th>
-            <th>
-              <input
-                type="button"
-                name="delete-item"
-                id="<%=item._id %>"
-                value="Delete"
-                class="delete-single"
-              />
-            </th>
-          </tr>
-          <% }) %>
-          <tr>
-            <th>Subtotal</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th id="subtotal"></th>
-            <th></th>
-          </tr>
-          <tr>
-            <th>Tax</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th id="tax"></th>
-            <th></th>
-          </tr>
-          <tr>
-            <th>Total</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th id="total"></th>
-            <th></th>
-          </tr>
-        </tbody>
-      </table>
-      <br />
-      <div class="checkout">
-        <form action="/shoppingcart" method="POST">
-          <input type="button" name="checkout" id="checkout" value="CheckOut" />
-        </form>
-      </div>
+      <form action="/orders" method="POST">
+        <% if (cartItems.length === 0) { %>
+        <p>Empty Cart!</p>
+        <% } %>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Card#</th>
+              <th>Price(CAD)</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartItems.forEach(item => { %>
+            <tr class="cart-items">
+              <th></th>
+              <th id="id<%=item.id %>"><%=item.id %></th>
+              <th>$<%=item.price %></th>
+              <th><%=item.quantity %></th>
+              <th class="cart-sub">
+                <%=Number(item.quantity) * Number(item.price) %>
+              </th>
+              <th>
+                <input
+                  type="button"
+                  name="delete-item"
+                  id="<%=item._id %>"
+                  value="Delete"
+                  class="delete-single"
+                />
+              </th>
+            </tr>
+            <% }) %>
+            <tr>
+              <th>Subtotal</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th id="subtotal"></th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>Tax</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th id="tax"></th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th id="total"></th>
+              <th></th>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <div class="checkout">
+          <input type="submit" name="checkout" id="checkout" value="CheckOut" />
+        </div>
+      </form>
     </main>
 
     <footer>

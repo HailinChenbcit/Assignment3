@@ -9,6 +9,7 @@ var session = require("express-session");
 const UserModel = require("./models/User");
 const eventModel = require("./models/TimeEvent");
 const cartModel = require("./models/Cart");
+const orderModel = require("./models/Order");
 
 app.use(
   bodyparser.urlencoded({
@@ -125,7 +126,14 @@ app.get("/search", isAuth, function (req, res) {
 app.get("/shoppingcart", isAuth, async function (req, res) {
   const allCarts = await cartModel
     .find({
-      owner: req.session.user._id,
+      $and: [
+        {
+          owner: req.session.user._id,
+        },
+        {
+          checkout: false,
+        },
+      ],
     })
     .exec();
   const cartItems = allCarts.map((item) => {
@@ -207,16 +215,13 @@ app.put("/timeline/insert", isAuth, function (req, res) {
 
 //Delete
 app.get("/timeline/remove/:id", isAuth, function (req, res) {
-  eventModel.deleteOne({_id: req.params.id,
-  },
-    function(err, data) {
-      if (err) {
-        console.log("Error " + err);
-      } else {
-        console.log("Data " + data);
-      }
-    },
-  );
+  eventModel.deleteOne({ _id: req.params.id }, function (err, data) {
+    if (err) {
+      console.log("Error " + err);
+    } else {
+      console.log("Data " + data);
+    }
+  });
 });
 
 const https = require("https");
@@ -280,7 +285,7 @@ app.get("/profile/:id", isAuth, async function (req, res) {
 });
 
 /*
-shopping cart
+Add to shopping cart
 */
 app.post("/profile/:id", isAuth, function (req, res) {
   // price and pokeID retrieve
@@ -300,6 +305,45 @@ app.post("/profile/:id", isAuth, function (req, res) {
 // success page
 app.get("/success", isAuth, function (req, res) {
   res.render("success");
+});
+
+app.get("/orders/:id", isAuth, function (req, res) {
+  // Display all the orders from user
+  /*
+  Orders schema:
+  UserID,
+  CartID,
+  Time,
+  */
+});
+
+app.post("/orders", isAuth, async function (req, res) {
+  var allCheckCarts = await cartModel
+    .find({
+      $and: [
+        {
+          owner: req.session.user._id,
+        },
+        {
+          checkout: false,
+        },
+      ],
+    })
+    .exec();
+  allChecked = [];
+  allCheckCarts.forEach((order) => {
+    allChecked.push(order._id);
+  });
+  const newOrder = orderModel({
+    owner: req.session.user._id,
+    cart: allChecked,
+  });
+  newOrder.save();
+  // Updated checkout status to true
+  allChecked.forEach((checked) => {
+    cartModel.findByIdAndUpdate(checked, { checkout: true }, { new: true });
+  });
+  res.redirect("/timeline");
 });
 
 app.use(express.static("./public"));
