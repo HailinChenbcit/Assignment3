@@ -29,7 +29,7 @@ app.use(
 // Middleware
 function isAuth(req, res, next) {
   if (req.sessionID && req.session.authenticated) {
-    console.log(req.sessionID);
+    // console.log(req.sessionID);
     next();
   } else {
     res.redirect("/login");
@@ -45,14 +45,14 @@ mongoose
     console.log("MongoDB connected");
   });
 
-// print out user information in session
-app.use((req, res, next) => {
-  console.log(`User details are: `);
-  console.log(req.session.user);
-  console.log("Entire session object:");
-  console.log(req.session);
-  next();
-});
+// // print out user information in session
+// app.use((req, res, next) => {
+//   console.log(`User details are: `);
+//   console.log(req.session.user);
+//   console.log("Entire session object:");
+//   console.log(req.session);
+//   next();
+// });
 
 /*
  User Login Logout
@@ -121,11 +121,7 @@ app.get("/search", isAuth, function (req, res) {
   res.render("search");
 });
 
-app.get("/timeline", isAuth, function (req, res) {
-  res.render("timeline");
-});
-
-// Add item to cart
+// Display all items in cart
 app.get("/shoppingcart", isAuth, async function (req, res) {
   const allCarts = await cartModel
     .find({
@@ -163,26 +159,40 @@ app.delete("/shoppingcart/remove/:id", isAuth, (req, res) => {
 /* 
 Timeline Event
 */
-// Read
-app.get("/timeline/getAllEvents", function (req, res) {
-  eventModel.find({}, function (err, data) {
-    if (err) {
-      console.log("Error " + err);
-    } else {
-      console.log("Data " + data);
-    }
-    res.send(data);
+// Display all event cards from one user
+app.get("/timeline", isAuth, async function (req, res) {
+  const allActs = await eventModel
+    .find({
+      owner: req.session.user._id,
+    })
+    .exec();
+  const allEvents = allActs.map((event) => {
+    const userEvent = {
+      _id: event._id,
+      text: event.text,
+      time: event.time,
+    };
+    return userEvent;
   });
+
+  const userInfo = await UserModel.find({
+    _id: req.session.user._id,
+  }).exec();
+  const details = {
+    firstname: userInfo[0].firstname,
+    email: userInfo[0].email,
+  };
+
+  res.render("timeline", { allEvents, details });
 });
 
 //Create
-app.put("/timeline/insert", function (req, res) {
-  console.log(req.body);
+app.put("/timeline/insert", isAuth, function (req, res) {
   eventModel.create(
     {
       text: req.body.text,
       time: req.body.time,
-      hits: req.body.hits,
+      owner: req.session.user._id,
     },
     function (err, data) {
       if (err) {
@@ -195,48 +205,23 @@ app.put("/timeline/insert", function (req, res) {
   );
 });
 
-//Upadte
-app.get("/timeline/inreaseHits/:id", function (req, res) {
-  console.log(req.params);
-  eventModel.updateOne(
-    {
-      _id: req.params.id,
-    },
-    {
-      $inc: { hits: 1 },
-    },
-    function (err, data) {
-      if (err) {
-        console.log("Error " + err);
-      } else {
-        console.log("Data " + data);
-      }
-      res.send("Update is good!");
-    }
-  );
-});
-
 //Delete
-app.get("/timeline/remove/:id", function (req, res) {
-  // console.log(req.params)
-  eventModel.remove(
-    {
-      _id: req.params.id,
-    },
-    function (err, data) {
+app.get("/timeline/remove/:id", isAuth, function (req, res) {
+  eventModel.deleteOne({_id: req.params.id,
+  },
+    function(err, data) {
       if (err) {
         console.log("Error " + err);
       } else {
         console.log("Data " + data);
       }
-      res.send("Delete is good!");
-    }
+    },
   );
 });
 
 const https = require("https");
 
-app.get("/profile/:id", async function (req, res) {
+app.get("/profile/:id", isAuth, async function (req, res) {
   const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`;
   data = "";
   await https.get(url, function (https_res) {
@@ -244,7 +229,6 @@ app.get("/profile/:id", async function (req, res) {
       data += chunk;
     });
     https_res.on("end", function () {
-      // console.log(JSON.parse(data))
       data = JSON.parse(data);
       obj_hp = data.stats
         .filter((obj) => {
@@ -280,8 +264,6 @@ app.get("/profile/:id", async function (req, res) {
         obj_types.push(data.types[i].type.name);
       }
 
-      console.log(obj_types);
-
       res.render("profile.ejs", {
         id: req.params.id,
         name: data.name,
@@ -304,7 +286,6 @@ app.post("/profile/:id", isAuth, function (req, res) {
   // price and pokeID retrieve
   var { quantity, price, pokeID } = req.body;
   quantity = Number(quantity);
-  console.log(quantity, price);
   const newCart = cartModel({
     owner: req.session.user._id,
     pokeID: pokeID,

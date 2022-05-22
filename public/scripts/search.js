@@ -155,7 +155,7 @@ function insertSearchEventToTheTimeLine(poke_type) {
       hits: 1,
     },
     success: function (r) {
-      console.log(r);
+      // console.log(r);
     },
   });
 }

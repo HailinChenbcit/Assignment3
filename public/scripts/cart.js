@@ -5,11 +5,10 @@ function updateCartTotal() {
   var subtotals = 0;
 
   for (var i = 0; i < carSubs.length; i++) {
-    var cartSub = parseInt(carSubs[i].innerHTML);
-    subtotals += cartSub;
+    subtotals += parseFloat(carSubs[i].innerHTML);
   }
-  taxes = (0.12 * subtotals).toFixed(2);
-  totals = subtotals + taxes;
+  var taxes = (0.12 * subtotals);
+  var totals = subtotals + taxes;
   $("#total").append("$" + totals);
   $("#tax").append("$" + taxes);
   $("#subtotal").append("$" + subtotals);
