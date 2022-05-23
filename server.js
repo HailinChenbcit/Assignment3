@@ -38,7 +38,7 @@ function isAuth(req, res, next) {
 }
 
 mongoose
-  .connect("mongodb+srv://hchen256:comp1537@cluster0.74n5t.mongodb.net/timelineDB?retryWrites=true&w=majority", {
+.connect("mongodb+srv://hchen256:comp1537@cluster0.74n5t.mongodb.net/timelineDB?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -54,7 +54,11 @@ app.get("/", function (req, res) {
 });
 // Login
 app.get("/login", function (req, res) {
-  res.render("login");
+  if (req.sessionID && req.session.authenticated) {
+    res.redirect("timeline")
+  } else {
+    res.render("login");
+  }
 });
 
 app.post("/login", async function (req, res) {
@@ -230,6 +234,7 @@ app.get("/timeline/remove/:id", isAuth, function (req, res) {
 
 const https = require("https");
 
+// Pokemon profile
 app.get("/profile/:id", isAuth, async function (req, res) {
   const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`;
   data = "";
