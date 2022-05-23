@@ -1,7 +1,7 @@
 function deleteEntry() {
   $(this).parent().remove();
   $.ajax({
-    url: `http://localhost:8000/timeline/remove/${this.id}`,
+    url: `https://infinite-ravine-07325.herokuapp.com/timeline/remove/${this.id}`,
     type: "get",
     success: (e) => {
       console.log(e);
@@ -12,7 +12,7 @@ function deleteEntry() {
 function intoOrder() {
   var id = $(this).attr("id");
   $.ajax({
-    url: `http://localhost:8000/order/${id}`,
+    url: `https://infinite-ravine-07325.herokuapp.com/order/${id}`,
     type: "get",
     success: (e) => {
       console.log(e);

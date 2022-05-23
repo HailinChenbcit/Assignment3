@@ -66,7 +66,7 @@ let time =
 
 function insertSearchEventToTheTimeLine(poke_ID) {
   $.ajax({
-    url: "http://localhost:8000/timeline/insert",
+    url: "https://infinite-ravine-07325.herokuapp.com/timeline/insert",
     type: "put",
     data: {
       text: ` Client has clicked the ${poke_ID}`,
