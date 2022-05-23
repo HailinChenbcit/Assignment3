@@ -11,7 +11,6 @@ function deleteEntry() {
 
 function intoOrder() {
   var id = $(this).attr("id");
-  // console.log(id)
   $.ajax({
     url: `http://localhost:8000/order/${id}`,
     type: "get",

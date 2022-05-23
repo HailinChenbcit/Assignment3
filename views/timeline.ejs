@@ -61,7 +61,7 @@
 
   <body>
     <header>
-      <img src="./banner.jpeg" height="40%" alt="banner" />
+      <img src="/banner.jpeg" height="40%" alt="banner" />
     </header>
     <nav>
       <a href="/home" id="Homepage"> Home </a>
@@ -110,7 +110,9 @@
         <ol>
           <% } %> <% allOrders.forEach(order => { %>
           <li>
-            <button class="orderButton" id="<%=order._id %>">Order</button>
+            <a href="/order/<%=order._id %>">
+              <button class="orderButton" id="<%=order._id %>">Order</button>
+            </a>
           </li>
           <br>
           <% }) %>

@@ -363,7 +363,7 @@ app.post("/orders", isAuth, async function (req, res) {
   res.redirect("/timeline");
 });
 
-// success page
+// Prev Orders page
 app.get("/order/:id", isAuth, async function (req, res) {
   const id = req.params.id;
   // Find specific fulfilled order by ID
@@ -379,20 +379,17 @@ app.get("/order/:id", isAuth, async function (req, res) {
   });
 
   const allCarts = await cartModel.find({ _id: { $in: allOrder } }).exec();
-  console.log(allCarts);
-  // const cartItems = allCarts.map((item) => {
-  //   const carItem = {
-  //     _id: item._id,
-  //     id: item.pokeID,
-  //     price: item.price,
-  //     quantity: item.quantity,
-  //   };
-  //   return carItem;
-  // });
+  const cartItems = allCarts.map((item) => {
+    const cartItem = {
+      _id: item._id,
+      id: item.pokeID,
+      price: item.price,
+      quantity: item.quantity,
+    };
+    return cartItem;
+  });
 
-  // Get all cart IDs in this order
-
-  res.render("orders", {});
+  res.render("orders", { cartItems });
 });
 
 app.use(express.static("./public"));
