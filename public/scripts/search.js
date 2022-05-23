@@ -152,7 +152,6 @@ function insertSearchEventToTheTimeLine(poke_type) {
     data: {
       text: ` Client has searched for ${poke_type}`,
       time: `${time}`,
-      hits: 1,
     },
     success: function (r) {
       // console.log(r);

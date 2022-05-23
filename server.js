@@ -46,15 +46,6 @@ mongoose
     console.log("MongoDB connected");
   });
 
-// // print out user information in session
-// app.use((req, res, next) => {
-//   console.log(`User details are: `);
-//   console.log(req.session.user);
-//   console.log("Entire session object:");
-//   console.log(req.session);
-//   next();
-// });
-
 /*
  User Login Logout
 */
