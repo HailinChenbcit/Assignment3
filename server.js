@@ -38,7 +38,7 @@ function isAuth(req, res, next) {
 }
 
 mongoose
-  .connect("mongodb://localhost:27017/timelineDB", {
+  .connect("mongodb+srv://hchen256:comp1537@cluster0.74n5t.mongodb.net/timelineDB?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
